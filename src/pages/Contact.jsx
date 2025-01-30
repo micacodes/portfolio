@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FaLinkedin, FaGithub, FaEnvelope } from "react-icons/fa";
+import emailjs from "emailjs-com";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ const Contact = () => {
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Handle form input changes
   const handleInputChange = (e) => {
@@ -21,11 +23,26 @@ const Contact = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitted(true);
-    // Here, you can handle the form submission (e.g., send an email or store the data in a database)
-    console.log("Form submitted", formData);
+    setIsSubmitting(true);
+
+    try {
+      // Send email using EmailJS
+      const result = await emailjs.sendForm(
+        "service_ncpbuv4", 
+        "template_fjkz31l", 
+        e.target, // Form element
+        "ZPQnBTCGFxc0tgidb" 
+      );
+
+      console.log(result.text);
+      setIsSubmitted(true);
+    } catch (error) {
+      console.error("Error sending email:", error.text);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -50,9 +67,22 @@ const Contact = () => {
         <h3 className="text-2xl font-semibold text-purple-400 mb-4">Contact Form</h3>
 
         {isSubmitted ? (
-          <div className="text-center text-green-500">
-            <p>Thank you for reaching out! I will get back to you soon.</p>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center text-green-500"
+          >
+            <p className="text-xl">Thank you for reaching out! I will get back to you soon.</p>
+            <motion.a
+              href="/"
+              className="text-purple-400 hover:text-purple-500 mt-4 inline-block text-lg"
+              whileHover={{ scale: 1.1 }}
+              transition={{ duration: 0.3 }}
+            >
+              Back to Homepage
+            </motion.a>
+          </motion.div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
@@ -115,8 +145,13 @@ const Contact = () => {
             <button
               type="submit"
               className="w-full py-3 bg-purple-400 text-white font-semibold rounded-md hover:bg-purple-500 transition duration-300"
+              disabled={isSubmitting}
             >
-              Send Message
+              {isSubmitting ? (
+                <div className="animate-spin w-5 h-5 mx-auto border-4 border-t-4 border-purple-400 rounded-full"></div>
+              ) : (
+                "Send Message"
+              )}
             </button>
           </form>
         )}
@@ -145,7 +180,7 @@ const Contact = () => {
           <FaGithub />
         </motion.a>
         <motion.a
-          href="mailto:barasamica@gmail.com"
+          href="mailto:barasamicah@gmail.com"
           className="text-purple-400 hover:text-purple-500 text-3xl"
           whileHover={{ scale: 1.2 }}
           transition={{ duration: 0.3 }}
