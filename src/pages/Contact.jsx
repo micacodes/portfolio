@@ -12,6 +12,7 @@ const Contact = () => {
 
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   // Handle form input changes
   const handleInputChange = (e) => {
@@ -38,11 +39,17 @@ const Contact = () => {
 
       console.log(result.text);
       setIsSubmitted(true);
+      setIsModalVisible(true); // Show the modal after form submission
     } catch (error) {
       console.error("Error sending email:", error.text);
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  // Close the modal
+  const closeModal = () => {
+    setIsModalVisible(false);
   };
 
   return (
@@ -66,30 +73,10 @@ const Contact = () => {
       <div className="bg-[#1E1E1E] p-6 rounded-lg shadow-lg border border-purple-500 w-full max-w-2xl">
         <h3 className="text-2xl font-semibold text-purple-400 mb-4">Contact Form</h3>
 
-        {isSubmitted ? (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center text-green-500"
-          >
-            <p className="text-xl">Thank you for reaching out! I will get back to you soon.</p>
-            <motion.a
-              href="/"
-              className="text-purple-400 hover:text-purple-500 mt-4 inline-block text-lg"
-              whileHover={{ scale: 1.1 }}
-              transition={{ duration: 0.3 }}
-            >
-              Back to Homepage
-            </motion.a>
-          </motion.div>
-        ) : (
+        {!isModalVisible && !isSubmitted ? (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label
-                htmlFor="name"
-                className="block text-gray-400 font-medium"
-              >
+              <label htmlFor="name" className="block text-gray-400 font-medium">
                 Your Name
               </label>
               <input
@@ -105,10 +92,7 @@ const Contact = () => {
             </div>
 
             <div>
-              <label
-                htmlFor="email"
-                className="block text-gray-400 font-medium"
-              >
+              <label htmlFor="email" className="block text-gray-400 font-medium">
                 Your Email
               </label>
               <input
@@ -124,10 +108,7 @@ const Contact = () => {
             </div>
 
             <div>
-              <label
-                htmlFor="message"
-                className="block text-gray-400 font-medium"
-              >
+              <label htmlFor="message" className="block text-gray-400 font-medium">
                 Your Message
               </label>
               <textarea
@@ -154,8 +135,36 @@ const Contact = () => {
               )}
             </button>
           </form>
-        )}
+        ) : null}
       </div>
+
+      {/* Modal for Success Message */}
+      {isModalVisible && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4 }}
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+        >
+          <div className="bg-[#2A2A2A] p-8 rounded-lg shadow-lg text-center w-80">
+            <p className="text-xl text-green-500">Thank you for reaching out! I will get back to you soon.</p>
+            <motion.a
+              href="/"
+              className="text-purple-400 hover:text-purple-500 mt-4 inline-block text-lg"
+              whileHover={{ scale: 1.1 }}
+              transition={{ duration: 0.3 }}
+            >
+              Back to Homepage
+            </motion.a>
+            <button
+              onClick={closeModal}
+              className="mt-4 w-full py-2 bg-purple-400 text-white rounded-md"
+            >
+              Close
+            </button>
+          </div>
+        </motion.div>
+      )}
 
       {/* Social Links */}
       <div className="mt-8 flex justify-center space-x-6">
