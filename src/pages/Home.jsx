@@ -8,17 +8,17 @@ import micaResume from '../assets/mica.pdf';
 const Home = () => {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center px-6 relative">
-      {/* Background Effect */}
+      
       <div className="absolute inset-0 bg-gradient-to-br from-purple-800/10 to-black opacity-50"></div>
 
-      {/* Profile Section */}
+      
       <motion.div
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         className="flex flex-col md:flex-row items-center bg-[#1E1E1E] shadow-xl rounded-xl p-8 md:p-12 max-w-6xl w-full border border-purple-500 z-10"
       >
-        {/* Profile Image */}
+        
         <motion.img
           src={micahImage} 
           alt="Micah Barasa"
@@ -28,7 +28,7 @@ const Home = () => {
           transition={{ duration: 0.8 }}
         />
 
-        {/* About Me Section */}
+        
         <div className="md:ml-8 text-center md:text-left mt-6 md:mt-0">
           <h1 className="text-5xl font-extrabold text-purple-400">Micah Barasa</h1>
           <p className="mt-4 text-gray-300 text-lg leading-relaxed">
@@ -36,7 +36,7 @@ const Home = () => {
             I specialize in designing high-performance backend architectures and integrating secure authentication mechanisms.
           </p>
 
-          {/* Animated Resume Button */}
+          
           <motion.a
             href={micaResume} 
             download
@@ -49,7 +49,7 @@ const Home = () => {
         </div>
       </motion.div>
 
-      {/* Tech Stack Section */}
+      
       <div className="mt-16 text-center">
         <h2 className="text-4xl font-semibold text-purple-400">Tech Stack</h2>
         <p className="text-gray-400 mt-2">Tools and technologies I use</p>
@@ -69,7 +69,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* What I Do Section */}
+      
       <div className="mt-16 text-center bg-[#1E1E1E] p-6 rounded-xl border border-purple-500 shadow-lg w-full max-w-6xl">
         <h2 className="text-4xl font-semibold text-purple-400">What I Do</h2>
         <p className="text-gray-300 mt-2 leading-relaxed">
